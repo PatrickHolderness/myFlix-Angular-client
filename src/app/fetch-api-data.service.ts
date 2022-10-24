@@ -14,27 +14,25 @@ const token = localStorage.getItem('token');
 const username = localStorage.getItem('username');
 
 @Injectable({
-  providedIn: 'root'
-})
-export class UserRegistrationService {
-  // Injects the HttpClient module to the constructor params
-  // This provides HttpClient to the entire class, making it available via this.http
-  constructor(private http: HttpClient) {
-  }
-
-  // Extract response data from HTTP response
-  private extractResponseData(res: Object): any { // changed type Response to Object
-      const body = res;
-      return body || {};
-  }
-
-  // Post new user data to the database
-  public userRegistration(userDetails: any): Observable<any> {
+    providedIn: 'root'
+  })
+  export class FetchApiDataService {
+    // Inject HttpClient module to constructor params
+    constructor(private http: HttpClient) { }
+  
+    /**
+     * calls API endpoint to register a new user
+     * @param userDetails 
+     * @returns a new user object in JSON format
+     */
+    public userRegistration(userDetails: any): Observable<any> {
       console.log(userDetails);
-      return this.http.post(apiUrl + 'users', userDetails).pipe(
+      return this.http
+        .post(apiUrl + 'users', userDetails)
+        .pipe(
           catchError(this.handleError)
-      );
-  }
+        );
+    }
 
   // Log existing user in
   public userLogin(userDetails: any): Observable<any> {
@@ -67,6 +65,7 @@ export class UserRegistrationService {
                     Authorization: 'Bearer ' + token,
                 })
         }).pipe(
+            map(this.extractResponseData),
             catchError(this.handleError)
         );
     }
@@ -80,6 +79,7 @@ export class UserRegistrationService {
                     Authorization: 'Bearer ' + token,
                 })
         }).pipe(
+            map(this.extractResponseData),
             catchError(this.handleError)
         );
     }
@@ -93,6 +93,7 @@ export class UserRegistrationService {
                     Authorization: 'Bearer ' + token,
                 })
         }).pipe(
+            map(this.extractResponseData),
             catchError(this.handleError)
         );
     }
@@ -106,6 +107,7 @@ export class UserRegistrationService {
                     Authorization: 'Bearer ' + token,
                 })
         }).pipe(
+            map(this.extractResponseData),
             catchError(this.handleError)
         );
     }
@@ -119,6 +121,7 @@ export class UserRegistrationService {
                     Authorization: 'Bearer ' + token,
                 })
         }).pipe(
+            map(this.extractResponseData),
             catchError(this.handleError)
         );
     }
@@ -133,6 +136,7 @@ export class UserRegistrationService {
                     Authorization: 'Bearer ' + token,
                 })
         }).pipe(
+            map(this.extractResponseData),
             catchError(this.handleError)
         );
     }
@@ -146,6 +150,7 @@ export class UserRegistrationService {
                     Authorization: 'Bearer ' + token,
                 })
         }).pipe(
+            map(this.extractResponseData),
             catchError(this.handleError)
         );
     }
@@ -159,10 +164,21 @@ export class UserRegistrationService {
                     Authorization: 'Bearer ' + token,
                 })
         }).pipe(
+            map(this.extractResponseData),
             catchError(this.handleError)
         );
     }
 
+     /**
+   * extracts response data from HTTP response
+   * @param res 
+   * @returns response body or empty object
+   */
+  private extractResponseData(res: any): any {
+    const body = res;
+    return body || {};
+  }
+  
   // Error handling
   private handleError(error: HttpErrorResponse): any {
       if (error.error instanceof ErrorEvent) {
