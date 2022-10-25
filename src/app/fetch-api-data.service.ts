@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -35,6 +36,8 @@ const username = localStorage.getItem('username');
     }
 
   // Log existing user in
+//   @param userDetails - object containing username and password
+
   public userLogin(userDetails: any): Observable<any> {
     console.log(userDetails);
     return this.http.post(apiUrl + 'users', userDetails).pipe(
