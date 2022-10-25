@@ -37,12 +37,13 @@ const username = localStorage.getItem('username');
 
   // Log existing user in
 //   @param userDetails - object containing username and password
-
-  public userLogin(userDetails: any): Observable<any> {
-    console.log(userDetails);
-    return this.http.post(apiUrl + 'users', userDetails).pipe(
-        catchError(this.handleError)
-    );
+// @returns data of the user in JSON format
+//
+public userLogin(userDetails: any): Observable<any> {
+ console.log(userDetails);
+ return this.http
+   .post(apiUrl + 'login', userDetails)
+   .pipe(catchError(this.handleError));
 }
 
   // Get a list of all movies
