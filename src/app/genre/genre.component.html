@@ -1,0 +1,25 @@
+<mat-card class="genre-card">
+    
+    <mat-card-title>{{data.Name}}</mat-card-title>
+    <mat-divider inset></mat-divider>
+    <mat-card-content>
+      <mat-card-subtitle style="margin-top: 20px; margin-bottom: -1px; font-style:oblique;">
+        Bio:
+      </mat-card-subtitle>
+      <p>{{data.Description}}</p>
+  
+    </mat-card-content>
+    
+    <mat-card-actions style="display: flex; justify-content:flex-end">
+      <button 
+        mat-button
+        color="primary"
+        type="button"
+        mat-dialog-close
+        >
+        close
+        </button>
+    </mat-card-actions>
+    <mat-card-footer>
+    </mat-card-footer>
+  </mat-card>

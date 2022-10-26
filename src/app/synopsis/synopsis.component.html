@@ -1,0 +1,21 @@
+
+<mat-card class="synopsis-card">
+
+    <mat-card-title style="margin-bottom: 20px;">{{data.Title}}</mat-card-title>
+    <mat-card-content>
+      <mat-divider style="margin-bottom: 10px;"></mat-divider>
+      <mat-card-subtitle style="font-style:oblique; margin-bottom: -1px; margin-top: 20px;">
+        Movie Description: 
+      </mat-card-subtitle>
+      <p>{{data.Description}}</p>
+    </mat-card-content>
+    <mat-card-actions style="display: flex; justify-content: flex-end; margin-top: 15px; margin-right: 15px;">
+        <button 
+            mat-button
+            color="primary" 
+            type="button"
+            mat-dialog-close>close</button>    
+    </mat-card-actions>
+    
+
+</mat-card>

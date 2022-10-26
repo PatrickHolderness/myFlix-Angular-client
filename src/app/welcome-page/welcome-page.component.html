@@ -1,0 +1,28 @@
+<mat-card class="welcome-card">
+  <mat-card-header>
+      <mat-card-title style="margin-bottom: 40px; font-family: Helvetica Neue; font-size: 175% " >Welcome to myFlix!</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+      <button
+      mat-raised-button
+      (click)="openUserRegistrationDialog()"
+      style="margin-right: 20px; width: 100px;"
+      color="primary"
+      type="submit"
+    >
+      <mat-icon>person_add</mat-icon>
+      Sign Up
+    </button>
+    <button
+      mat-stroked-button
+      (click)="openUserLoginDialog()"
+      style="width: 100px;"
+      color="primary"
+      type="submit"
+    >
+      <mat-icon>tv</mat-icon>
+      Login
+    </button>
+
+  </mat-card-content>
+</mat-card>

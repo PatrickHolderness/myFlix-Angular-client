@@ -39,18 +39,19 @@ const username = localStorage.getItem('username');
 //   @param userDetails - object containing username and password
 // @returns data of the user in JSON format
 //
-public userLogin(userDetails: any): Observable<any> {
+     userLogin(userDetails: any): Observable<any> {
  console.log(userDetails);
  return this.http
    .post(apiUrl + 'login', userDetails)
    .pipe(catchError(this.handleError));
 }
 
+
   // Get a list of all movies
-  public getAllMovies(): Observable<any> {
+     getAllMovies(): Observable<any> {
       const token = localStorage.getItem('token');
-      return this.http.get(apiUrl + 'movies', {
-          headers: new HttpHeaders(
+
+      return this.http.get(apiUrl + 'movies', {headers: new HttpHeaders(
               {
                   Authorization: 'Bearer ' + token,
               })
@@ -60,7 +61,11 @@ public userLogin(userDetails: any): Observable<any> {
       );
   }
 
-      // Get a single movie's details from database
+      /**  Get a single movie's details from database
+      * 
+      * @param Title 
+      * @returns movie object
+      */
       public getMovie(movieTitle: String): Observable<any> {
         const token = localStorage.getItem('token');
         return this.http.get(apiUrl + 'movies/' + movieTitle, {
@@ -74,7 +79,13 @@ public userLogin(userDetails: any): Observable<any> {
         );
     }
 
-    // Get a director's details from database
+    /**
+   * Get director info
+   * 
+   * @param name 
+   * @returns director object
+   */
+
     public getDirector(directorName: String): Observable<any> {
         const token = localStorage.getItem('token');
         return this.http.get(apiUrl + 'movies/directors/' + directorName, {
@@ -88,47 +99,70 @@ public userLogin(userDetails: any): Observable<any> {
         );
     }
 
-    // Get a genre's details from database
-    public getGenre(genreName: String): Observable<any> {
+     /**
+   * Get genre info
+   * 
+   * @returns genre object
+   */
+  
+      getGenre(): Observable<any> {
         const token = localStorage.getItem('token');
-        return this.http.get(apiUrl + 'movies/genres/' + genreName, {
-            headers: new HttpHeaders(
-                {
-                    Authorization: 'Bearer ' + token,
-                })
-        }).pipe(
+        return this.http.get(apiUrl + 'movies/genre/:Name', {headers: new HttpHeaders(
+          {
+            Authorization: 'Bearer ' + token,
+          }),}).pipe(
             map(this.extractResponseData),
             catchError(this.handleError)
-        );
-    }
+          );
+        }
 
-    // Get a user's details from database
-    public getUser(username: String): Observable<any> {
+   /**
+   * Get single user
+   * 
+   * @returns user object
+   */
+
+    getUser(): Observable<any> {
         const token = localStorage.getItem('token');
-        return this.http.get(apiUrl + 'users/' + username, {
-            headers: new HttpHeaders(
-                {
-                    Authorization: 'Bearer ' + token,
-                })
-        }).pipe(
+        const Username = localStorage.getItem('user');
+        return this.http.get(apiUrl + 'users/' + Username, {headers: new HttpHeaders(
+          {
+            Authorization: 'Bearer ' + token,
+          }),}).pipe(
             map(this.extractResponseData),
             catchError(this.handleError)
-        );
-    }
+          );
+        }  
+        
+       /**
+   * Get favorite movies
+   * 
+   * @returns favorite movies array
+   */
+        getFavMovie(): Observable<any> {
+            const token = localStorage.getItem('token');
+            const Username = localStorage.getItem('user');
+            return this.http.get(apiUrl + `users/${Username}/movies/`, {headers: new HttpHeaders(
+              {
+                Authorization: 'Bearer ' + token,
+              }),}).pipe(
+                map(this.extractResponseData),
+                catchError(this.handleError)
+              );
+            } 
 
     // Add to favourites list, by movieID
-    public addToFavorites(username: String, movieId: Number): Observable<any> {
+    addFavMovie(MovieID: any): Observable<any> {
         const token = localStorage.getItem('token');
-        return this.http.post(apiUrl + 'users/' + username + '/FavoriteMovies/' + movieId, {
-            headers: new HttpHeaders(
-                {
-                    Authorization: 'Bearer ' + token,
-                })
-        }).pipe(
+        const Username = localStorage.getItem('user');
+        return this.http.post(apiUrl + `users/${Username}/movies/${MovieID}`, null, {headers: new HttpHeaders(
+          {
+            Authorization: 'Bearer ' + token,
+          }),}).pipe(
             map(this.extractResponseData),
             catchError(this.handleError)
-        );
-    }
+          );
+        }
 
     // Edit a user's details
     public editUser(username: String, userDetails: any): Observable<any> {
@@ -145,34 +179,56 @@ public userLogin(userDetails: any): Observable<any> {
         );
     }
 
-    // Delete a user from database
-    public deleteUser(username: String): Observable<any> {
+  /**
+   * Delete user
+   * 
+   * @returns error/success message
+   */
+
+   delUser(): Observable<any> {
+    const token = localStorage.getItem('token');
+    const Username = localStorage.getItem('user');
+    return this.http.delete(apiUrl + `users/${Username}`, {headers: new HttpHeaders(
+      {
+        Authorization: 'Bearer ' + token,
+      }),}).pipe(
+        map(this.extractResponseData),
+        catchError(this.handleError)
+      );
+    } 
+
+    delFavMovie(MovieID: any): Observable<any> {
         const token = localStorage.getItem('token');
-        return this.http.delete(apiUrl + 'users/' + username, {
-            headers: new HttpHeaders(
-                {
-                    Authorization: 'Bearer ' + token,
-                })
-        }).pipe(
+        const Username = localStorage.getItem('user');
+        return this.http.delete(apiUrl + `users/${Username}/movies/${MovieID}`, {headers: new HttpHeaders(
+          {
+            Authorization: 'Bearer ' + token,
+          }),}).pipe(
             map(this.extractResponseData),
             catchError(this.handleError)
-        );
+          );
+        }
+
+         /**
+   * Update user
+   * 
+   * @param updatedUserData 
+   * @returns updated user object 
+   */
+
+   updateUser(updatedUserData: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const Username = localStorage.getItem('user');
+    return this.http.put(apiUrl + `users/${Username}`, updatedUserData, {headers: new HttpHeaders(
+      {
+        Authorization: 'Bearer ' + token,
+      }),}).pipe(
+        map(this.extractResponseData),
+        catchError(this.handleError)
+      );
     }
 
-    // Delete from favourites list
-    public deleteFromFavorites(username: String, movieId: Number): Observable<any> {
-        const token = localStorage.getItem('token');
-        return this.http.delete(apiUrl + 'users/' + username + '/FavoriteMovies/' + movieId, {
-            headers: new HttpHeaders(
-                {
-                    Authorization: 'Bearer ' + token,
-                })
-        }).pipe(
-            map(this.extractResponseData),
-            catchError(this.handleError)
-        );
-    }
-
+    
      /**
    * extracts response data from HTTP response
    * @param res 
