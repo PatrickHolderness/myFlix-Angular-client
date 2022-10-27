@@ -159,16 +159,17 @@ const username = localStorage.getItem('username');
    */
     addFavMovie(MovieID: any): Observable<any> {
         const token = localStorage.getItem('token');
-        const Username = localStorage.getItem('user');
-        return this.http.post(apiUrl + `users/${Username}/movies/${MovieID}`, null, {headers: new HttpHeaders(
+        const username = localStorage.getItem('user');
+        return this.http
+        .put(
+          `${apiUrl}users/${username}/movies/${MovieID}`,
+          { FavoriteMovie: MovieID },
           {
-            Authorization: 'Bearer ' + token,
-          }),}).pipe(
-            map(this.extractResponseData),
-            catchError(this.handleError)
-          );
-        }
-
+            headers: new HttpHeaders({ Authorization: 'Bearer ' + token }),
+          }
+        )
+        .pipe(map(this.extractResponseData), catchError(this.handleError));
+    }
     // Edit a user's details
     public editUser(username: String, userDetails: any): Observable<any> {
         console.log(userDetails);
@@ -208,17 +209,15 @@ const username = localStorage.getItem('username');
      * @param MovieID 
      * @returns updated favorite movies array
      */
-    delFavMovie(MovieID: any): Observable<any> {
+    delFavMovie(MovieID: string): Observable<any> {
         const token = localStorage.getItem('token');
-        const Username = localStorage.getItem('user');
-        return this.http.delete(apiUrl + `users/${Username}/movies/${MovieID}`, {headers: new HttpHeaders(
-          {
-            Authorization: 'Bearer ' + token,
-          }),}).pipe(
-            map(this.extractResponseData),
-            catchError(this.handleError)
-          );
-        }
+        const username = localStorage.getItem('user');
+        return this.http
+        .delete(`${apiUrl}users/${username}/movies/${MovieID}`, {
+          headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
+        })
+        .pipe(map(this.extractResponseData), catchError(this.handleError));
+    }
 
          /**
    * Update user

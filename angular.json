@@ -103,7 +103,7 @@
         },
         
         "deploy": {
-          "builder": "angular-cli-ghpages:deploy -b main -d build"
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
