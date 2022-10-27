@@ -151,7 +151,12 @@ const username = localStorage.getItem('username');
               );
             } 
 
-    // Add to favourites list, by movieID
+      /**
+   * Adds movie to favorites
+   * 
+   * @param MovieID 
+   * @returns updated favorite movies array
+   */
     addFavMovie(MovieID: any): Observable<any> {
         const token = localStorage.getItem('token');
         const Username = localStorage.getItem('user');
@@ -197,6 +202,12 @@ const username = localStorage.getItem('username');
       );
     } 
 
+        /**
+     * Deletes movie from favorites
+     * 
+     * @param MovieID 
+     * @returns updated favorite movies array
+     */
     delFavMovie(MovieID: any): Observable<any> {
         const token = localStorage.getItem('token');
         const Username = localStorage.getItem('user');
@@ -228,7 +239,7 @@ const username = localStorage.getItem('username');
       );
     }
 
-    
+
      /**
    * extracts response data from HTTP response
    * @param res 
