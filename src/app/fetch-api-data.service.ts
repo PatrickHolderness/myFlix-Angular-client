@@ -151,19 +151,25 @@ const username = localStorage.getItem('username');
               );
             } 
 
-    // Add to favourites list, by movieID
+      /**
+   * Adds movie to favorites
+   * 
+   * @param MovieID 
+   * @returns updated favorite movies array
+   */
     addFavMovie(MovieID: any): Observable<any> {
         const token = localStorage.getItem('token');
-        const Username = localStorage.getItem('user');
-        return this.http.post(apiUrl + `users/${Username}/movies/${MovieID}`, null, {headers: new HttpHeaders(
+        const username = localStorage.getItem('user');
+        return this.http
+        .put(
+          `${apiUrl}users/${username}/movies/${MovieID}`,
+          { FavoriteMovie: MovieID },
           {
-            Authorization: 'Bearer ' + token,
-          }),}).pipe(
-            map(this.extractResponseData),
-            catchError(this.handleError)
-          );
-        }
-
+            headers: new HttpHeaders({ Authorization: 'Bearer ' + token }),
+          }
+        )
+        .pipe(map(this.extractResponseData), catchError(this.handleError));
+    }
     // Edit a user's details
     public editUser(username: String, userDetails: any): Observable<any> {
         console.log(userDetails);
@@ -197,17 +203,21 @@ const username = localStorage.getItem('username');
       );
     } 
 
-    delFavMovie(MovieID: any): Observable<any> {
+        /**
+     * Deletes movie from favorites
+     * 
+     * @param MovieID 
+     * @returns updated favorite movies array
+     */
+    delFavMovie(MovieID: string): Observable<any> {
         const token = localStorage.getItem('token');
-        const Username = localStorage.getItem('user');
-        return this.http.delete(apiUrl + `users/${Username}/movies/${MovieID}`, {headers: new HttpHeaders(
-          {
-            Authorization: 'Bearer ' + token,
-          }),}).pipe(
-            map(this.extractResponseData),
-            catchError(this.handleError)
-          );
-        }
+        const username = localStorage.getItem('user');
+        return this.http
+        .delete(`${apiUrl}users/${username}/movies/${MovieID}`, {
+          headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
+        })
+        .pipe(map(this.extractResponseData), catchError(this.handleError));
+    }
 
          /**
    * Update user
@@ -228,7 +238,7 @@ const username = localStorage.getItem('username');
       );
     }
 
-    
+
      /**
    * extracts response data from HTTP response
    * @param res 

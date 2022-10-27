@@ -73,9 +73,9 @@ getMovies(): void {
    * @function addToFav 
    */
 
-  addToFav(id: string): void {
-    this.fetchApiData.addFavMovie(id).subscribe((resp: any) => {
-      console.log(resp);
+  addFavMovie(id: string): void {
+    this.fetchApiData.addFavMovie(id).subscribe((result) => {
+      console.log(result);
       this.ngOnInit();
     });
   }
@@ -90,8 +90,8 @@ getMovies(): void {
 
   delFavMovie(id: string): void {
     console.log('removed '+ id);
-    this.fetchApiData.delFavMovie(id).subscribe((resp: any) => {
-      console.log(resp);
+    this.fetchApiData.delFavMovie(id).subscribe((result) => {
+      console.log(result);
       this.ngOnInit();
     })
   }
