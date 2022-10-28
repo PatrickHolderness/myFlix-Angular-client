@@ -229,10 +229,9 @@ const Username = localStorage.getItem('username');
    updateUser(updatedUserData: any): Observable<any> {
     const token = localStorage.getItem('token');
     const Username = localStorage.getItem('user');
-    return this.http.put(apiUrl + `users/${Username}`, updatedUserData, {headers: new HttpHeaders(
-      {
-        Authorization: 'Bearer ' + token,
-      }),}).pipe(
+    return this.http.put(`${apiUrl}users/${Username}`, updatedUserData, {
+      headers: new HttpHeaders({ Authorization: 'Bearer ' + token, }),
+    }).pipe(
         map(this.extractResponseData),
         catchError(this.handleError)
       );

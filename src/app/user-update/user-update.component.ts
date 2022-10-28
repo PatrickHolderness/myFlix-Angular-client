@@ -16,9 +16,10 @@ export class UserUpdateComponent implements OnInit {
 
   constructor(
     public fetchApiData: FetchApiDataService,
-    public snackbar: MatSnackBar,
-    public dialogRef: MatDialogRef<UserUpdateComponent>
-  ) { }
+    public snackBar: MatSnackBar,
+    public dialogRef: MatDialogRef<UserUpdateComponent>,
+    public router: Router
+    ) { }
 
   ngOnInit(): void {
   }
@@ -29,14 +30,26 @@ export class UserUpdateComponent implements OnInit {
    * @function updateAppUser 
    */
 
-  updateAppUser(): void {
+  updateUser(): void {
     this.fetchApiData.updateUser(this.userData).subscribe((resp:any) => {
       console.log(resp);
       this.dialogRef.close();
-      this.snackbar.open('Your profile has been updated', 'ok', {
+      this.snackBar.open('Your profile has been updated', 'ok', {
         duration: 3000
       });
-    })
+    
+      // Log out user if they update Username or Password to avoid errors
+      if (this.userData.Username || this.userData.Password) {
+        localStorage.clear();
+        this.router.navigate(['welcome']);
+        this.snackBar.open(
+          'Please login again with your new credentials',
+          'OK',
+          {
+            duration: 2000,
+          }
+        );
+      }
+    });
   }
-  
 }
