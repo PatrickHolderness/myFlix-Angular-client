@@ -12,7 +12,7 @@ const apiUrl = 'https://movie-info-online.herokuapp.com/';
 //get token
 const token = localStorage.getItem('token');
 //get username stored locally
-const username = localStorage.getItem('username');
+const Username = localStorage.getItem('username');
 
 @Injectable({
     providedIn: 'root'
